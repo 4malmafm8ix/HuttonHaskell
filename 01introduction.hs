@@ -12,7 +12,7 @@ double (double 2)
     = 8
 
 This is another possible evaluation path 
-for the is expression. 
+for this expression. 
 -}
 
 {- Exercise 2
