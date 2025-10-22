@@ -15,7 +15,7 @@
 
 {- Question 3
   (i) ticks on infix div are incorrect. 
- (ii) name of expression starts with a capital. 
+ (ii) name of expression starts with an uppercase. 
 (iii) layout rule not followed with local a, xs 
         a,x need to be in the same column.
 -}
