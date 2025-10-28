@@ -114,8 +114,7 @@ perfects bound = [x | x <- [1..bound], perfect x]
     a single generator. 
 
     ** First was wrong order **
-    concat [[(x,y) | x <- [1,2]] | y <- [3,4]]
-  
+    concat [[(x,y) | x <- [1,2]] | y <- [3,4]]  
 -}
 
 huttC5Q7 :: [(Int,Int)]
