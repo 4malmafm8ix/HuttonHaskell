@@ -149,7 +149,7 @@ halve :: [a] -> ([a],[a])
 halve [] = ([],[])
 halve xs = (first,second)
     where
-        half   = length xs `div` 2
+        half   = (length xs + 1) `div` 2
         first  = take half xs
         second = drop half xs
 
