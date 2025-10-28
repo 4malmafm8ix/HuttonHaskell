@@ -128,3 +128,34 @@ elemm :: Eq a => a -> [a] -> Bool
 elemm t []                   = False
 elemm t (x : xs) | t == x    = True
                  | otherwise = elemm t xs
+
+
+{-
+    Question 7
+-}
+
+merge :: Ord a => [a] -> [a] -> [a]
+merge xs [] = xs
+merge [] ys = ys
+merge (x : xs) (y : ys)
+    | x <= y = x : merge xs (y : ys)
+    | y < x  = y : merge (x : xs) ys
+
+{-
+    Question 8
+-}
+
+halve :: [a] -> ([a],[a])
+halve [] = ([],[])
+halve xs = (first,second)
+    where
+        half   = length xs `div` 2
+        first  = take half xs
+        second = drop half xs
+
+mergeSort :: Ord a => [a] -> [a]
+mergeSort []  = []
+mergeSort [x] = [x]
+mergeSort xs = merge (mergeSort first) (mergeSort second)
+    where
+        (first,second) = halve xs
