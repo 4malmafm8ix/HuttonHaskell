@@ -1,3 +1,6 @@
+import Data.Char
+
+
 {-
     Question 1
 
@@ -92,3 +95,57 @@ curry' f = \x y -> f (x,y)
 uncurry' :: (a -> b -> c) -> (a,b) -> c
 uncurry' f = \t -> f (fst t) (snd t)
 -- uncurry' f = \(x,y) -> f x y
+
+{-
+    Binary String Transmitter
+-}
+
+type Bit = Int 
+
+bin2int :: [Bit] -> Int
+bin2int = foldr (\x y -> x + 2*y) 0
+
+int2bin :: Int -> [Bit]
+int2bin 0 = []
+int2bin n = n `mod` 2 : int2bin (n `div` 2)
+
+make8 :: [Bit] -> [Bit]
+make8 bits = take 8 (bits ++ repeat 0)
+
+makeCheck9 :: [Bit] -> [Bit]
+makeCheck9 bits
+    | evenParity = 0 : bits
+    | otherwise  = 1 : bits
+    where
+        evenParity = even (sum bits)
+
+encodeChar :: Char -> [Bit]
+encodeChar = makeCheck9 . make8 . int2bin . ord
+
+encode :: String -> [Bit]
+encode = concat . map (encodeChar)
+
+chop :: Int -> [Bit] -> [[Bit]]
+chop _ [] = []
+chop n bs = take n bs : chop n (drop n bs)
+
+checkByte :: [Bit] -> Bool
+checkByte (b : bs) = b == (sum bs `mod` 2)
+
+checkSum :: [Bit] -> Bool
+checkSum bs = all checkByte (chop 9 bs)
+
+decode :: [Bit] -> String
+decode bits
+    | checkSum bits = map ((chr . bin2int) . drop 1) (chop 9 bits)
+    | otherwise     = error "Transmission error detected by checkbit failure."
+
+channel :: [Bit] -> [Bit]
+channel = id
+
+faultyChannel :: [Bit] -> [Bit]
+faultyChannel []       = []
+faultyChannel (b : bs) = bs
+
+transmit :: String -> String
+transmit = decode . faultyChannel . encode
